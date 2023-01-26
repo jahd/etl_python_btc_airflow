@@ -31,7 +31,8 @@ airflow scheduler
 # dags
 Initial dataset
 
-we created a DAG that run the python scrypt every month and load the result into an sqlite SQL database
+
+we created a DAG that runs the python scrypt every month and load the result into an sqlite SQL database
 <img width="702" alt="Capture d’écran 2023-01-26 à 21 30 30" src="https://user-images.githubusercontent.com/45184003/214944095-6665de71-0f90-4c27-afda-d6d67e0dfaf0.png">
 
 Result loaded into the SQL database
