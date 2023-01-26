@@ -27,5 +27,3 @@ run_etl = PythonOperator(
     python_callable=run_btc_etl,
     dag=dag,
 )
-
-run_etl

@@ -9,6 +9,8 @@ from dotenv import main
 main.load_dotenv()
 os.makedirs("working_dir", exist_ok = True)
 
+# This function will take df of each month and return a list of values
+# we need for our analysis
 def getwhatweneed(df_month):    
     len_positif = len(df_month.query('perf > 0'))
     len_dataframe = len(df_month)
@@ -25,12 +27,19 @@ def run_btc_etl():
     os.environ['KAGGLE_KEY'] = os.getenv('KAGGLE_KEY')
     os.environ["no_proxy"] = os.getenv('no_proxy_KEY')
 
+    # EXTRACT
+    # authenticate to Kaggle's Api
     api = KaggleApi()
     api.authenticate()
+
+    # upload the zip file into the working dir
     api.dataset_download_files('pavelbiz/monthly-btc-rate-from-2014-to-present', path="working_dir")
 
+    # unzip the file and put the csv into the working dir
     with zipfile.ZipFile('./working_dir/monthly-btc-rate-from-2014-to-present.zip', 'r') as zip_ref:
         zip_ref.extractall("./working_dir/")
+
+    # TRANSFORM
     df = pd.read_csv("./working_dir/BTC-USD.csv")
     df["perf"] = round(((df["Close"] - df["Open"]) / df["Open"]) * 100, 2)
     df['Date'] = pd.to_datetime(df['Date'])
@@ -61,6 +70,8 @@ def run_btc_etl():
         f'The most profitable month of the year is {final_df.iloc[0][0]} by being {final_df.iloc[0][1]} times profitable and {final_df.iloc[0][2]} times loss-making')
     print("here is the final table :")
     print(final_df.to_string(index=False))
+
+    #LOAD
 
     DATABASE_LOCATION="sqlite:///working_dir/btc_db.sqlite"
     engine = sqlalchemy.create_engine(DATABASE_LOCATION)
