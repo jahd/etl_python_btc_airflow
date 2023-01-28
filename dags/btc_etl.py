@@ -25,7 +25,7 @@ def getwhatweneed(df_month):
 def run_btc_etl():
     os.environ['KAGGLE_USERNAME'] = os.getenv('KAGGLE_USERNAME')
     os.environ['KAGGLE_KEY'] = os.getenv('KAGGLE_KEY')
-    os.environ["no_proxy"] = os.getenv('no_proxy_KEY')
+    os.environ["no_proxy"] = os.getenv('no_proxy')
 
     # EXTRACT
     # authenticate to Kaggle's Api
